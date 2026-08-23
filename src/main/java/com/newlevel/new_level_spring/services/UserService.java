@@ -1,5 +1,6 @@
 package com.newlevel.new_level_spring.services;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import com.newlevel.new_level_spring.model.User;
 public class UserService {
   
 
-  List<User> userslList = Arrays.asList(new User("123", "Rafa", 1, 20), new User("12233", "Timo", 5, 30));
+  List<User> userslList = new ArrayList<>(Arrays.asList(new User("123", "Rafa", 1, 20), new User("12233", "Timo", 5, 30)));
 
   public List<User> getUsers(){
     return userslList;
@@ -24,5 +25,9 @@ public class UserService {
       }
     }
     return null;
+  }
+
+  public void addUser(User user){
+    userslList.add(user);
   }
 }
