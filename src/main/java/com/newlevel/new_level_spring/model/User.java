@@ -5,10 +5,11 @@ import org.springframework.stereotype.Component;
 //import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 
 
 @AllArgsConstructor
-@Component
+@Data
 public class User {
   private String id;
   //private String clerkId;
@@ -18,36 +19,4 @@ public class User {
   private int currentXp;
   //private LocalDateTime createdAt;
 
-  public int getCurrentXp() {
-    return currentXp;
-  }
-
-  public String getId() {
-    return id;
-  }
-
-  public int getLevel() {
-    return level;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setCurrentXp(int currentXp) {
-    this.currentXp = currentXp;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public void setLevel(int level) {
-    this.level = level;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-  
 }

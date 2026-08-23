@@ -17,7 +17,7 @@ public class UserService {
     return userslList;
   }
 
-  public Object getUserById(String userId){
+  public User getUserById(String userId){
     for (int i = 0; i < userslList.size(); i++){
       if ( userId.equals(userslList.get(i).getId()) ) {
         return userslList.get(i);
