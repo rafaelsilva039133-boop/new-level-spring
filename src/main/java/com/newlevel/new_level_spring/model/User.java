@@ -1,7 +1,5 @@
 package com.newlevel.new_level_spring.model;
 
-import org.springframework.stereotype.Component;
-
 //import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;

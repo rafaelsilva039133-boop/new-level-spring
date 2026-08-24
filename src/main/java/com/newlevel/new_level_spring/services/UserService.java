@@ -30,4 +30,15 @@ public class UserService {
   public void addUser(User user){
     userslList.add(user);
   }
+
+  public void updateUser(User user){
+    int i = 0;
+    for (User u : userslList) {
+      if (u.getId().equals(user.getId())) {
+        userslList.set(i, user);
+        break;
+      }
+      i++;
+    }
+  }
 }
