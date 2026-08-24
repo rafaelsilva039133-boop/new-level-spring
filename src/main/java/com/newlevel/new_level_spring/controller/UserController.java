@@ -3,6 +3,7 @@ package com.newlevel.new_level_spring.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,5 +38,10 @@ public class UserController {
   @PutMapping("/user")
   private void updateUser(@RequestBody User user){
     service.updateUser(user);
+  }
+
+  @DeleteMapping("/user/{userId}")
+  private void deleteUser(@PathVariable String userId){
+    service.deleteUser(userId);
   }
 }

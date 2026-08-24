@@ -32,13 +32,21 @@ public class UserService {
   }
 
   public void updateUser(User user){
+    userslList.set(getIndex(user.getId()), user); 
+  }
+
+  public void deleteUser(String userId){
+    userslList.remove(getIndex(userId));
+  }
+
+  public int getIndex(String userId){
     int i = 0;
     for (User u : userslList) {
-      if (u.getId().equals(user.getId())) {
-        userslList.set(i, user);
-        break;
+      if (u.getId().equals(userId)) {
+        return i;
       }
       i++;
     }
+    return -1;
   }
 }
