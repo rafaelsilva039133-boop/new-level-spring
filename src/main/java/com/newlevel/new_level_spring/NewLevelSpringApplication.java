@@ -9,5 +9,4 @@ public class NewLevelSpringApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(NewLevelSpringApplication.class, args);
 	}
-
 }
