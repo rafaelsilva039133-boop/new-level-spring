@@ -23,7 +23,6 @@ public class UserService {
     return userRepository.findAll();
   }
 
-
   public User getUserById(Long userId){
     return userRepository.findById(userId).orElseThrow(() -> new ResponsiveStatusExeption("User not found"));
   }
@@ -33,25 +32,15 @@ public class UserService {
 
     return userRepository.save(user);
 
-  }
-/*
-  public void updateUser(User user){
-    userslList.set(getIndex(user.getId()), user); 
-  }
+  }  
 
   public void deleteUser(Long userId){
-    userslList.remove(getIndex(userId));
+    userRepository.delete(getUserById(userId));
   }
 
-  public int getIndex(Long userId){
-    int i = 0;
-    for (User u : userslList) {
-      if (u.getId() == userId) {
-        return i;
-      }
-      i++;
-    }
-    return -1;
+  public void updateUser(UserDTO userDTO, Long id){
+    getUserById(id);
+    User user = User.builder().name(userDTO.getName()).id(id).build();
+    userRepository.save(user);
   }
-    */
 }
