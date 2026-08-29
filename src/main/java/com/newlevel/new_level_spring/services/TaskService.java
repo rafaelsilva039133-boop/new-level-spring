@@ -1,46 +1,50 @@
 package com.newlevel.new_level_spring.services;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.newlevel.new_level_spring.model.Task;
+import com.newlevel.new_level_spring.model.DTOS.TaskDTO;
+import com.newlevel.new_level_spring.repository.TaskRepository;
+import com.newlevel.new_level_spring.tools.ResponsiveStatusExeption;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class TaskService {
 
-  private List<Task> tasksList = new ArrayList<>(Arrays.asList(new Task(1L, "Task 1", "Passear com cachorro"), new Task(2L, "Task 2", "Passear com gato")));
+  private final TaskRepository taskRepository;
 
   public List<Task> getTasks(){
-    return tasksList;
+    return taskRepository.findAll();
   }
 
-  public Task geTaskById(Long taskId){
-    return tasksList.stream().filter(t -> t.getId() == taskId).findFirst().get();
+  public Task getTaskById(Long taskId){
+    return taskRepository.findById(taskId).orElseThrow(() -> new ResponsiveStatusExeption("Task not found"));
   }
 
-  public void addTask(Task task){
-    tasksList.add(task);
+  public Task addTask(TaskDTO taskDTO){
+    Task task = Task.builder()
+      .title(taskDTO.getTitle())
+      .description(taskDTO.getDescription())
+      .build();
+
+    return taskRepository.save(task);
   }
 
-  public void updateTask(Task task){
-    tasksList.set(getIndex(task.getId()), task);
+  public void updateTask(TaskDTO taskDTO, Long id){
+    getTaskById(id);
+    Task task = Task.builder()
+      .title(taskDTO.getTitle())
+      .description(taskDTO.getDescription())
+      .id(id)
+      .build(); 
+    taskRepository.save(task);
   }
 
   public void deleteTask(Long taskId){
-    tasksList.remove(getIndex(taskId));
-  }
-
-    public int getIndex(Long userId){
-    int i = 0;
-    for (Task u : tasksList) {
-      if (u.getId() == userId) {
-        return i;
-      }
-      i++;
-    }
-    return -1;
+    taskRepository.delete(getTaskById(taskId));
   }
 }

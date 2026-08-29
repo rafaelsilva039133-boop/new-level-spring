@@ -31,7 +31,6 @@ public class UserService {
     User user = User.builder().name(userDTO.getName()).build();
 
     return userRepository.save(user);
-
   }  
 
   public void deleteUser(Long userId){
