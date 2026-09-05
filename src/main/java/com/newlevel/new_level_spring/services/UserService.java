@@ -1,7 +1,5 @@
 package com.newlevel.new_level_spring.services;
 
-//import java.util.ArrayList;
-//import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -23,23 +21,41 @@ public class UserService {
     return userRepository.findAll();
   }
 
-  public User getUserById(Long userId){
-    return userRepository.findById(userId).orElseThrow(() -> new ResponsiveStatusExeption("User not found"));
+  public User createUser(UserDTO userDTO) {
+    // Verifica se já existe
+    if (existUserById(userDTO.getAuth0Id())) {
+      throw new ResponsiveStatusExeption("Usuário já existe");
+    }
+    
+    User newUser = User.builder()
+      .auth0Id(userDTO.getAuth0Id())
+      .name(userDTO.getName())
+      .lastLoginAt(userDTO.getLastLoginAt())
+      .build();
+    
+    return userRepository.save(newUser);
   }
- 
-  public User addUser(UserDTO userDTO){
-    User user = User.builder().name(userDTO.getName()).build();
 
-    return userRepository.save(user);
-  }  
+  public User updateUser(UserDTO userDTO) {
+    return userRepository.findById(userDTO.getAuth0Id())
+      .map(existingUser -> {
+        existingUser.setName(userDTO.getName());
+        existingUser.setLastLoginAt(userDTO.getLastLoginAt());
+        return userRepository.save(existingUser);
+      })
+      .orElseThrow(() -> new ResponsiveStatusExeption("Usuário não encontrado: " + userDTO.getAuth0Id()));
+  }
 
-  public void deleteUser(Long userId){
+  public User getUserById(String auth0Id){
+    return userRepository.findById(auth0Id).orElseThrow(() -> new ResponsiveStatusExeption("User not found"));
+  }
+
+  public Boolean existUserById(String auth0Id){
+    return userRepository.existsById(auth0Id);
+  } 
+
+  public void deleteUser(String userId){
     userRepository.delete(getUserById(userId));
   }
 
-  public void updateUser(UserDTO userDTO, Long id){
-    getUserById(id);
-    User user = User.builder().name(userDTO.getName()).id(id).build();
-    userRepository.save(user);
-  }
 }
