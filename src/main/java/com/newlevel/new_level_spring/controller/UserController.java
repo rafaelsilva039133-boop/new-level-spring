@@ -1,9 +1,6 @@
 package com.newlevel.new_level_spring.controller;
 
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,10 +8,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.newlevel.new_level_spring.model.DTOS.UserDTO;
+import com.newlevel.new_level_spring.model.DTOS.UserResponseDTO;
 import com.newlevel.new_level_spring.model.User;
 import com.newlevel.new_level_spring.services.UserService;
 
@@ -25,37 +22,28 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/user")
 @RestController
 public class UserController {
-  
+
   private final UserService service;
 
   @GetMapping("/me")
-  public ResponseEntity<?> me(@AuthenticationPrincipal Jwt jwt) {
-    return service.me(jwt);
-  }
-
-  
-  @GetMapping
-  public List<User> getUsers(){
-    return service.getUsers();
-  }
-
-  @GetMapping("/by-id")
-  public User getUserById(@RequestParam String userId){
-    return service.getUserById(userId);
+  public ResponseEntity<UserResponseDTO> me(Jwt jwt) {
+    return ResponseEntity.ok(service.getCurrentUser(jwt));
   }
 
   @PostMapping
-  public void createUser(@Valid @RequestBody UserDTO userDTO){
-    service.createUser(userDTO);
+  public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserDTO userDTO, Jwt jwt) {
+    return ResponseEntity
+      .status(201)
+      .body(service.createUser(userDTO, jwt));
   }
 
   @PutMapping
-  public void updateUser(@Valid @RequestBody UserDTO userDTO){
-    service.updateUser(userDTO);
+  public ResponseEntity<UserResponseDTO> updateUser(@Valid @RequestBody UserDTO userDTO, Jwt jwt) {
+    return ResponseEntity.ok(service.updateUser(userDTO, jwt));
   }
 
-  @DeleteMapping("/by-id")
-  public void deleteUser(@RequestParam String userId){
-    service.deleteUser(userId);
+  @DeleteMapping
+  public void deleteUser(Jwt jwt) {
+    service.deleteUser(jwt);
   }
 }

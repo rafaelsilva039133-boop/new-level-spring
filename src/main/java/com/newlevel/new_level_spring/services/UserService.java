@@ -1,14 +1,11 @@
 package com.newlevel.new_level_spring.services;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import com.newlevel.new_level_spring.exception.ResponsiveStatusExeption;
 import com.newlevel.new_level_spring.model.DTOS.UserDTO;
+import com.newlevel.new_level_spring.model.DTOS.UserResponseDTO;
 import com.newlevel.new_level_spring.model.User;
 import com.newlevel.new_level_spring.repository.UserRepository;
 
@@ -19,51 +16,83 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
   
   private final UserRepository userRepository;
+  //Metodos externos
+  public UserResponseDTO getCurrentUser(Jwt jwt) {
 
-  public ResponseEntity<?> me(Jwt jwt) {
-    String userId = jwt.getSubject();
+    String auth0Id = jwt.getSubject();
 
-    return ResponseEntity.ok(Map.of(
-      "userId", userId
-    ));
+    User user = userRepository.findById(auth0Id)
+      .orElseThrow(() ->
+        new ResponsiveStatusExeption("Usuário não encontrado")
+      );
+    return toResponseDTO(user);
   }
 
-  public List<User> getUsers(){
-    return userRepository.findAll();
-  }
+  public UserResponseDTO createUser(UserDTO userDTO, Jwt jwt) {
 
-  public User createUser(UserDTO userDTO) {
-    if (existUserById(userDTO.getAuth0Id())) {
+    String auth0Id = jwt.getSubject();
+
+    if (existUserById(auth0Id)) {
       throw new ResponsiveStatusExeption("Usuário já existe");
     }
-    
+
     User newUser = User.builder()
-      .auth0Id(userDTO.getAuth0Id())
+      .auth0Id(auth0Id)
       .name(userDTO.getName())
       .build();
-    
-    return userRepository.save(newUser);
+
+    User savedUser = userRepository.save(newUser);
+
+    return toResponseDTO(savedUser);
   }
 
-  public User updateUser(UserDTO userDTO) {
-    return userRepository.findById(userDTO.getAuth0Id())
-      .map(existingUser -> {
-        existingUser.setName(userDTO.getName());
-        return userRepository.save(existingUser);
-      })
-      .orElseThrow(() -> new ResponsiveStatusExeption("Usuário não encontrado: " + userDTO.getAuth0Id()));
+  public UserResponseDTO updateUser(UserDTO userDTO, Jwt jwt) {
+
+    String auth0Id = jwt.getSubject();
+
+    User user = userRepository.findById(auth0Id)
+      .orElseThrow(() ->
+        new ResponsiveStatusExeption("Usuário não encontrado")
+      );
+
+    user.setName(userDTO.getName());
+
+    User updatedUser = userRepository.save(user);
+
+    return toResponseDTO(updatedUser);
   }
+
+  public void deleteUser(Jwt jwt) {
+
+    String auth0Id = jwt.getSubject();
+
+    User user = getUserById(auth0Id);
+
+    userRepository.delete(user);
+  }
+
+  //Metodos externos
 
   public User getUserById(String auth0Id){
-    return userRepository.findById(auth0Id).orElseThrow(() -> new ResponsiveStatusExeption("User not found"));
+    return userRepository.findById(auth0Id)
+      .orElseThrow(() -> 
+        new ResponsiveStatusExeption("User not found")
+      );
   }
 
   public Boolean existUserById(String auth0Id){
     return userRepository.existsById(auth0Id);
   } 
 
-  public void deleteUser(String userId){
-    userRepository.delete(getUserById(userId));
+  private UserResponseDTO toResponseDTO(User user) {
+    return UserResponseDTO
+      .builder().auth0Id(user.getAuth0Id())
+      .name(user.getName())
+      .level(user.getLevel())
+      .currentXp(user.getCurrentXp())
+      .createdAt(user.getCreatedAt())
+      .updatedAt(user.getUpdatedAt())
+      .build();
   }
 
 }
