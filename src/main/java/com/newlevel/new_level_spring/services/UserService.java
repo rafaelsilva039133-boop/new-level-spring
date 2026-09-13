@@ -1,11 +1,14 @@
 package com.newlevel.new_level_spring.services;
 
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
-import com.newlevel.new_level_spring.model.User;
 import com.newlevel.new_level_spring.model.DTOS.UserDTO;
+import com.newlevel.new_level_spring.model.User;
 import com.newlevel.new_level_spring.repository.UserRepository;
 import com.newlevel.new_level_spring.tools.ResponsiveStatusExeption;
 
@@ -16,6 +19,14 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
   
   private final UserRepository userRepository;
+
+  public ResponseEntity<?> me(Jwt jwt) {
+    String userId = jwt.getSubject(); // claim "sub", ex: "auth0|abc123"
+
+    return ResponseEntity.ok(Map.of(
+      "userId", userId
+    ));
+  }
 
   public List<User> getUsers(){
     return userRepository.findAll();
