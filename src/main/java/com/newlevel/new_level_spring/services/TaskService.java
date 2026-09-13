@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.newlevel.new_level_spring.exception.ResponsiveStatusExeption;
 import com.newlevel.new_level_spring.model.Task;
 import com.newlevel.new_level_spring.model.DTOS.TaskDTO;
 import com.newlevel.new_level_spring.repository.TaskRepository;
-import com.newlevel.new_level_spring.tools.ResponsiveStatusExeption;
 
 import lombok.RequiredArgsConstructor;
 
