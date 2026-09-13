@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
-import com.newlevel.new_level_spring.model.DTOS.UserDTO;
 import com.newlevel.new_level_spring.exception.ResponsiveStatusExeption;
+import com.newlevel.new_level_spring.model.DTOS.UserDTO;
 import com.newlevel.new_level_spring.model.User;
 import com.newlevel.new_level_spring.repository.UserRepository;
 
@@ -40,7 +40,6 @@ public class UserService {
     User newUser = User.builder()
       .auth0Id(userDTO.getAuth0Id())
       .name(userDTO.getName())
-      .lastLoginAt(userDTO.getLastLoginAt())
       .build();
     
     return userRepository.save(newUser);
@@ -50,7 +49,6 @@ public class UserService {
     return userRepository.findById(userDTO.getAuth0Id())
       .map(existingUser -> {
         existingUser.setName(userDTO.getName());
-        existingUser.setLastLoginAt(userDTO.getLastLoginAt());
         return userRepository.save(existingUser);
       })
       .orElseThrow(() -> new ResponsiveStatusExeption("Usuário não encontrado: " + userDTO.getAuth0Id()));

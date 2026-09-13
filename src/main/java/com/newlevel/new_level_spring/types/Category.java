@@ -16,5 +16,6 @@ public enum Category {
     HOBBIES,          // Hobbies
     SELF_CARE,        // Autocuidado
     ROUTINE,          // Hábitos de rotina
-    OTHER             // Outros
+    OTHER,            // Outros
+    UNDEFINED         // Sem Categoria
 }

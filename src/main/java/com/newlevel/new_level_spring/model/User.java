@@ -9,9 +9,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
-//import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,33 +23,26 @@ import lombok.NoArgsConstructor;
 @Builder
 public class User {
   @Id
-  @Column(name = "auth0_id", nullable = false, length = 100, updatable = false)
+  @Column(name = "auth0_id", nullable = false, updatable = false)
   private String auth0Id;
 
   @Column(name = "name")
   private String name;
 
   @Builder.Default
-  @Column(name = "level")
+  @Column(name = "level", nullable = false)
   private int level = 0;
 
   @Builder.Default
-  @Column(name = "current_xp")
+  @Column(name = "current_xp", nullable = false)
   private int currentXp = 0;
 
   @CreationTimestamp
-  @Column(name = "created_at", updatable = false)
+  @Column(name = "created_at", updatable = false, nullable = false)
   private LocalDateTime createdAt; // Quando foi criado
   
   @UpdateTimestamp
-  @Column(name = "updated_at")
+  @Column(name = "updated_at", nullable = false)
   private LocalDateTime updatedAt; // Última atualização
-  
-  @Column(name = "last_login_at")
-  private LocalDateTime lastLoginAt; // Último login
-  
-  @Builder.Default
-  @Column(name = "is_active")
-  private boolean active = true; // Se está ativo
 
 }
