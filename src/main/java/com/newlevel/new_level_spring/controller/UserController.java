@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.newlevel.new_level_spring.model.DTOS.UserDTO;
 import com.newlevel.new_level_spring.model.DTOS.UserResponseDTO;
-import com.newlevel.new_level_spring.model.User;
 import com.newlevel.new_level_spring.services.UserService;
 
 import jakarta.validation.Valid;
