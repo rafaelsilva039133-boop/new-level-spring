@@ -19,12 +19,16 @@ import java.util.stream.Collectors;
 
 import org.springframework.security.oauth2.jwt.Jwt;
 
+import com.newlevel.new_level_spring.types.Difficulty;
+
 @Service
 @RequiredArgsConstructor
 public class TaskService {
 
   private final TaskRepository taskRepository;
   private final UserRepository userRepository;
+
+  private final XpService xpService;
 
   @Transactional
   public TaskResponseDTO createTask(Jwt jwt, TaskRequestDTO dto) {
@@ -77,10 +81,18 @@ public class TaskService {
   @Transactional
   public TaskResponseDTO completeTask(Long taskId, Jwt jwt) {
     String auth0Id = jwt.getSubject();
+    User user = userRepository.findById(jwt.getSubject())
+      .orElseThrow(() -> new ResponsiveStatusExeption("Usuário não encontrado"));
     
     Task task = findTaskOwnedByUser(taskId, auth0Id);
+
     task.setCompletedAt(LocalDateTime.now());
     task.setUpdatedAt(LocalDateTime.now());
+
+    
+    xpService.addXpForTaskCompletion(user, task.getDifficulty());
+    userRepository.save(user);
+
     return toResponseDTO(taskRepository.save(task));
   }
 
