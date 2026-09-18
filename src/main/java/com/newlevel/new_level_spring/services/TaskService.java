@@ -19,8 +19,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.security.oauth2.jwt.Jwt;
 
-import com.newlevel.new_level_spring.types.Difficulty;
-
 @Service
 @RequiredArgsConstructor
 public class TaskService {
@@ -50,7 +48,7 @@ public class TaskService {
 
   public List<TaskResponseDTO> listTasksByUser(Jwt jwt) {
     String auth0Id = jwt.getSubject();
-    return taskRepository.findAllByUserId(auth0Id)
+    return taskRepository.findAllByUserAuth0Id(auth0Id)
       .stream()
       .map(this::toResponseDTO)
       .collect(Collectors.toList());

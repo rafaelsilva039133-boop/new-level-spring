@@ -7,10 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.newlevel.new_level_spring.model.Task;
 
-public interface TaskRepository extends JpaRepository <Task, Long> {
+public interface TaskRepository extends JpaRepository<Task, Long> {
 
+    List<Task> findAllByUserAuth0Id(String auth0Id);
 
-  List<Task> findAllByUserId(String userId);
-
-  Optional<Task> findByIdAndUserId(Long id, String userId);
+    Optional<Task> findByIdAndUserAuth0Id(Long id, String auth0Id);
 }
