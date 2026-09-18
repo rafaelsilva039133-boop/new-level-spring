@@ -1,5 +1,7 @@
 package com.newlevel.new_level_spring.model.DTOS;
 
+import java.time.LocalDate;
+
 import com.newlevel.new_level_spring.types.Category;
 
 import com.newlevel.new_level_spring.types.Difficulty;
@@ -10,7 +12,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class TaskDTO {
+public class TaskRequestDTO {
 
   @NotBlank(message = "A tarefa deve ter um titulo")
   @Size(max = 100, message = "O Titulo deve ter no máximo 100 caracteres")
@@ -24,4 +26,6 @@ public class TaskDTO {
 
   @NotNull(message = "A dificuldade é obrigatória")
   private Difficulty difficulty;
+
+  private LocalDate dueDate;
 }

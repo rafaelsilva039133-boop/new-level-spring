@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.newlevel.new_level_spring.model.DTOS.UserDTO;
+import com.newlevel.new_level_spring.model.DTOS.UserRequestDTO;
 import com.newlevel.new_level_spring.model.DTOS.UserResponseDTO;
 import com.newlevel.new_level_spring.services.UserService;
 
@@ -30,14 +30,14 @@ public class UserController {
   }
 
   @PostMapping
-  public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserDTO userDTO, Jwt jwt) {
+  public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserRequestDTO userDTO, Jwt jwt) {
     return ResponseEntity
       .status(201)
       .body(service.createUser(userDTO, jwt));
   }
 
   @PutMapping
-  public ResponseEntity<UserResponseDTO> updateUser(@Valid @RequestBody UserDTO userDTO, Jwt jwt) {
+  public ResponseEntity<UserResponseDTO> updateUser(@Valid @RequestBody UserRequestDTO userDTO, Jwt jwt) {
     return ResponseEntity.ok(service.updateUser(userDTO, jwt));
   }
 

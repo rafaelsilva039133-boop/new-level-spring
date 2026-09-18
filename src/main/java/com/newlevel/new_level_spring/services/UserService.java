@@ -4,7 +4,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import com.newlevel.new_level_spring.exception.ResponsiveStatusExeption;
-import com.newlevel.new_level_spring.model.DTOS.UserDTO;
+import com.newlevel.new_level_spring.model.DTOS.UserRequestDTO;
 import com.newlevel.new_level_spring.model.DTOS.UserResponseDTO;
 import com.newlevel.new_level_spring.model.User;
 import com.newlevel.new_level_spring.repository.UserRepository;
@@ -28,7 +28,7 @@ public class UserService {
     return toResponseDTO(user);
   }
 
-  public UserResponseDTO createUser(UserDTO userDTO, Jwt jwt) {
+  public UserResponseDTO createUser(UserRequestDTO userDTO, Jwt jwt) {
 
     String auth0Id = jwt.getSubject();
 
@@ -46,7 +46,7 @@ public class UserService {
     return toResponseDTO(savedUser);
   }
 
-  public UserResponseDTO updateUser(UserDTO userDTO, Jwt jwt) {
+  public UserResponseDTO updateUser(UserRequestDTO userDTO, Jwt jwt) {
 
     String auth0Id = jwt.getSubject();
 

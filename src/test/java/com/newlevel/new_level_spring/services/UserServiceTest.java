@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.jwt.Jwt;
 
 import com.newlevel.new_level_spring.model.User;
@@ -62,6 +61,7 @@ public class UserServiceTest {
   @Test 
   @DisplayName("Should throw exeption when user not exist") 
   void getCurrentUserCade2(){
-
+    when(jwt.getSubject()).thenReturn(null);
+    
   }
 }

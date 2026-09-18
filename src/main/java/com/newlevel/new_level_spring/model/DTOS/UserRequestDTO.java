@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class UserDTO {
+public class UserRequestDTO {
   @NotBlank(message = "Nome é obrigatório")
   private String name;
 
