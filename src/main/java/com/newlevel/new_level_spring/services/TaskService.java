@@ -1,23 +1,22 @@
 package com.newlevel.new_level_spring.services;
 
-import lombok.RequiredArgsConstructor;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.newlevel.new_level_spring.exception.ResponsiveStatusExeption;
-import com.newlevel.new_level_spring.model.Task;
-import com.newlevel.new_level_spring.model.User;
-import com.newlevel.new_level_spring.model.DTOS.TaskRequestDTO;
-import com.newlevel.new_level_spring.model.DTOS.TaskResponseDTO;
-import com.newlevel.new_level_spring.repository.TaskRepository;
-import com.newlevel.new_level_spring.repository.UserRepository;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.newlevel.new_level_spring.exception.ResponsiveStatusExeption;
+import com.newlevel.new_level_spring.model.DTOS.TaskRequestDTO;
+import com.newlevel.new_level_spring.model.DTOS.TaskResponseDTO;
+import com.newlevel.new_level_spring.model.Task;
+import com.newlevel.new_level_spring.model.User;
+import com.newlevel.new_level_spring.repository.TaskRepository;
+import com.newlevel.new_level_spring.repository.UserRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -123,6 +122,7 @@ public class TaskService {
       .dueDate(task.getDueDate())
       .id(task.getId())
       .title(task.getTitle())
+      .updatedAt(task.getUpdatedAt())
       .build();
   }
 }

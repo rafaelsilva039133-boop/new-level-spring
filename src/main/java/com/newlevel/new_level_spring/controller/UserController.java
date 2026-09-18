@@ -1,6 +1,7 @@
 package com.newlevel.new_level_spring.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,24 +26,24 @@ public class UserController {
   private final UserService service;
 
   @GetMapping("/me")
-  public ResponseEntity<UserResponseDTO> me(Jwt jwt) {
+  public ResponseEntity<UserResponseDTO> me(@AuthenticationPrincipal Jwt jwt) {
     return ResponseEntity.ok(service.getCurrentUser(jwt));
   }
 
   @PostMapping
-  public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserRequestDTO userDTO, Jwt jwt) {
+  public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserRequestDTO userDTO, @AuthenticationPrincipal Jwt jwt) {
     return ResponseEntity
       .status(201)
       .body(service.createUser(userDTO, jwt));
   }
 
   @PutMapping
-  public ResponseEntity<UserResponseDTO> updateUser(@Valid @RequestBody UserRequestDTO userDTO, Jwt jwt) {
+  public ResponseEntity<UserResponseDTO> updateUser(@Valid @RequestBody UserRequestDTO userDTO, @AuthenticationPrincipal Jwt jwt) {
     return ResponseEntity.ok(service.updateUser(userDTO, jwt));
   }
 
   @DeleteMapping
-  public void deleteUser(Jwt jwt) {
+  public void deleteUser(@AuthenticationPrincipal Jwt jwt) {
     service.deleteUser(jwt);
   }
 }
