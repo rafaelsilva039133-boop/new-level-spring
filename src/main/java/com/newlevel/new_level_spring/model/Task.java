@@ -44,6 +44,9 @@ public class Task {
   @Column(name = "description")
   private String description;
 
+  @Column(name = "is_completed")
+  private Boolean isCompleted;
+
   @Column(name = "due_date")
   private LocalDate dueDate;
 

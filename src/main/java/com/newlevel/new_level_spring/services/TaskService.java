@@ -41,6 +41,7 @@ public class TaskService {
     task.setDifficulty(dto.getDifficulty());
     task.setCreatedAt(LocalDateTime.now());
     task.setUpdatedAt(LocalDateTime.now());
+    task.setIsCompleted(dto.getIsCompleted());
     taskRepository.save(task);
     return toResponseDTO(task);
   }
@@ -71,6 +72,7 @@ public class TaskService {
     task.setCategory(dto.getCategory());
     task.setDifficulty(dto.getDifficulty());
     task.setUpdatedAt(LocalDateTime.now());
+    task.setIsCompleted(dto.getIsCompleted());
 
     return toResponseDTO(taskRepository.save(task));
   }
@@ -85,7 +87,7 @@ public class TaskService {
 
     task.setCompletedAt(LocalDateTime.now());
     task.setUpdatedAt(LocalDateTime.now());
-
+    task.setIsCompleted(true);
     
     xpService.addXpForTaskCompletion(user, task.getDifficulty());
     userRepository.save(user);
@@ -123,6 +125,7 @@ public class TaskService {
       .id(task.getId())
       .title(task.getTitle())
       .updatedAt(task.getUpdatedAt())
+      .isCompleted(task.getIsCompleted())
       .build();
   }
 }

@@ -27,5 +27,7 @@ public class TaskRequestDTO {
   @NotNull(message = "A dificuldade é obrigatória")
   private Difficulty difficulty;
 
+  private Boolean isCompleted;
+
   private LocalDate dueDate;
 }

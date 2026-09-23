@@ -21,4 +21,5 @@ public class TaskResponseDTO {
     private LocalDateTime updatedAt;
     private Category category;
     private Difficulty difficulty;
+    private Boolean isCompleted;
 }
