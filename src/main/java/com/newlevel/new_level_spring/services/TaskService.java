@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.newlevel.new_level_spring.exception.ResponsiveStatusExeption;
 import com.newlevel.new_level_spring.model.DTOS.TaskRequestDTO;
 import com.newlevel.new_level_spring.model.DTOS.TaskResponseDTO;
+import com.newlevel.new_level_spring.model.DTOS.TaskUpdateDTO;
 import com.newlevel.new_level_spring.model.Task;
 import com.newlevel.new_level_spring.model.User;
 import com.newlevel.new_level_spring.repository.TaskRepository;
@@ -73,6 +74,41 @@ public class TaskService {
     task.setDifficulty(dto.getDifficulty());
     task.setUpdatedAt(LocalDateTime.now());
     task.setIsCompleted(dto.getIsCompleted());
+
+    return toResponseDTO(taskRepository.save(task));
+  }
+
+  @Transactional
+  public TaskResponseDTO updatePartialTask(Long taskId, Jwt jwt, TaskUpdateDTO dto) {
+    String auth0Id = jwt.getSubject();
+
+    Task task = findTaskOwnedByUser(taskId, auth0Id);
+
+    if (dto.getTitle() != null) {
+      task.setTitle(dto.getTitle());
+    }
+
+    if (dto.getDescription() != null) {
+      task.setDescription(dto.getDescription());
+    }
+
+    if (dto.getDueDate() != null) {
+      task.setDueDate(dto.getDueDate());
+    }
+
+    if (dto.getCategory() != null) {
+      task.setCategory(dto.getCategory());
+    }
+
+    if (dto.getDifficulty() != null) {
+      task.setDifficulty(dto.getDifficulty());
+    }
+
+    if (dto.getIsCompleted() != null) {
+      task.setIsCompleted(dto.getIsCompleted());
+    }
+
+    task.setUpdatedAt(LocalDateTime.now());
 
     return toResponseDTO(taskRepository.save(task));
   }

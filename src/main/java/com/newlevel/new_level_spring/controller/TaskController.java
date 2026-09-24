@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.newlevel.new_level_spring.model.DTOS.TaskRequestDTO;
 import com.newlevel.new_level_spring.model.DTOS.TaskResponseDTO;
+import com.newlevel.new_level_spring.model.DTOS.TaskUpdateDTO;
 import com.newlevel.new_level_spring.services.TaskService;
 
 import jakarta.validation.Valid;
@@ -46,6 +47,11 @@ public class TaskController {
   @PutMapping("/{taskId}")
   public TaskResponseDTO updateTask(@PathVariable Long taskId, @Valid @RequestBody TaskRequestDTO taskDTO, @AuthenticationPrincipal Jwt jwt) {
     return service.updateTask(taskId, jwt, taskDTO);
+  }
+
+  @PatchMapping("/{taskId}")
+  public TaskResponseDTO updatePartialTask(@PathVariable Long taskId, @Valid @RequestBody TaskUpdateDTO taskDTO, @AuthenticationPrincipal Jwt jwt) {
+    return service.updatePartialTask(taskId, jwt, taskDTO);
   }
 
   @PatchMapping("/{taskId}/done")
