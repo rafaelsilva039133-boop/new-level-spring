@@ -42,7 +42,6 @@ public class TaskService {
     task.setDifficulty(dto.getDifficulty());
     task.setCreatedAt(LocalDateTime.now());
     task.setUpdatedAt(LocalDateTime.now());
-    task.setIsCompleted(dto.getIsCompleted());
     taskRepository.save(task);
     return toResponseDTO(task);
   }
@@ -73,7 +72,6 @@ public class TaskService {
     task.setCategory(dto.getCategory());
     task.setDifficulty(dto.getDifficulty());
     task.setUpdatedAt(LocalDateTime.now());
-    task.setIsCompleted(dto.getIsCompleted());
 
     return toResponseDTO(taskRepository.save(task));
   }
@@ -104,10 +102,6 @@ public class TaskService {
       task.setDifficulty(dto.getDifficulty());
     }
 
-    if (dto.getIsCompleted() != null) {
-      task.setIsCompleted(dto.getIsCompleted());
-    }
-
     task.setUpdatedAt(LocalDateTime.now());
 
     return toResponseDTO(taskRepository.save(task));
@@ -120,6 +114,10 @@ public class TaskService {
       .orElseThrow(() -> new ResponsiveStatusExeption("Usuário não encontrado"));
     
     Task task = findTaskOwnedByUser(taskId, auth0Id);
+
+    if (task.getIsCompleted()) {
+      throw new ResponsiveStatusExeption("A tarefa já foi completa");
+    }
 
     task.setCompletedAt(LocalDateTime.now());
     task.setUpdatedAt(LocalDateTime.now());

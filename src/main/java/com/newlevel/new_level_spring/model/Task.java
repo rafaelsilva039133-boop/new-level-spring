@@ -44,8 +44,9 @@ public class Task {
   @Column(name = "description")
   private String description;
 
+  @Builder.Default
   @Column(name = "is_completed")
-  private Boolean isCompleted;
+  private Boolean isCompleted = false;
 
   @Column(name = "due_date")
   private LocalDate dueDate;

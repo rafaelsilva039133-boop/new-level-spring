@@ -3,7 +3,6 @@ package com.newlevel.new_level_spring.model.DTOS;
 import java.time.LocalDate;
 
 import com.newlevel.new_level_spring.types.Category;
-
 import com.newlevel.new_level_spring.types.Difficulty;
 
 import jakarta.validation.constraints.NotBlank;
@@ -26,8 +25,6 @@ public class TaskRequestDTO {
 
   @NotNull(message = "A dificuldade é obrigatória")
   private Difficulty difficulty;
-
-  private Boolean isCompleted;
 
   private LocalDate dueDate;
 }

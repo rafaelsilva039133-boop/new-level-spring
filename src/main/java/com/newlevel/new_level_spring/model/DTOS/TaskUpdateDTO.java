@@ -14,5 +14,4 @@ public class TaskUpdateDTO {
   private LocalDate dueDate;
   private Category category;
   private Difficulty difficulty;
-  private Boolean isCompleted;
 }
